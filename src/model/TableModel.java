@@ -3,6 +3,8 @@ package model;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.AbstractTableModel;
 
 public class TableModel extends AbstractTableModel {
@@ -15,7 +17,7 @@ public class TableModel extends AbstractTableModel {
 	 * @param data
 	 */
 	public TableModel(List<Contact> data) {
-		setColumnNames(new String[]{ "First Name", "Last Name" , "Gender", "Number", "Age", "Email", "Birth Date" });
+		setColumnNames(new String[]{ "First Name", "Last Name" , "Gender", "Number", "Age", "Email"});
 		setData(data);
 	}
 
@@ -83,8 +85,10 @@ public class TableModel extends AbstractTableModel {
 			.map(e -> new Object[]{
 						e.getFirstName(), e.getLastName(), 
 						e.getGender(), e.getNumber(), 
-						e.getAge(), e.getEmail(), e.getBirthDate()})
+						e.getAge(), e.getEmail()})
 			.collect(Collectors.toList())
 			.toArray(Object[][] :: new);
 	}
+	
+	
 }

@@ -106,6 +106,12 @@ public class Trie<T> implements Tree<T>{
 	}
 	
 	public void update(T data, T newData) {
+		if (search(selectKeyFunction.apply(data)).size() == 0) {
+			System.out.println("Cound't find" + data.toString());
+			return;
+		} else {
+			System.out.println("HEEII");
+		}
 		delete(data);
 		insert(newData);
 	}
@@ -146,6 +152,7 @@ public class Trie<T> implements Tree<T>{
 	public List<T> search(String prefix) {
 		ArrayList<T> result = new ArrayList<>();
 		//Reach till the end of this key
+		System.out.println("Yea " + prefix);
 		CompositeNode<T> curr = root;
 		for (Character c: prefix.toCharArray()) {
 			if (curr.getChildren().containsKey(c)) {

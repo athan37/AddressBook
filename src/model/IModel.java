@@ -1,4 +1,5 @@
 package model;
+import java.util.Date;
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -36,5 +37,13 @@ public interface IModel {
 	 */
 	public List<Contact> getAllContacts();
 	
+	/**
+	 * Generate contact from given information
+	 * @return contact
+	 */
+	public Contact convertDataToContact(Object[] contactData);
+	
 	public TableModel getTableModel();
+
+
 }

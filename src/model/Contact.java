@@ -1,5 +1,6 @@
 package model;
 
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -14,7 +15,7 @@ public class Contact {
 	private String number;
 	private int age;
 	private String email;
-	private Date birthDate;
+	private Calendar birthDate;
 	
 	/**
 	 * Constructor for user
@@ -24,18 +25,16 @@ public class Contact {
 	 * @param number
 	 * @param age
 	 * @param email
-	 * @param birthDate
 	 */
 	public Contact(String firstName, String lastName,
 	 Gender gender, String number, int age,
-	 String email, Date birthDate) {
+	 String email) {
 		this.firstName = firstName;
 		this.lastName  = lastName;
 		this.number    = number;
 		this.gender    = gender;
 		this.age       = age;
 		this.email     = email;
-		this.birthDate = birthDate;
 	}
 
 	/**
@@ -122,24 +121,10 @@ public class Contact {
 		this.email = email;
 	}
 
-	/**
-	 * @return the birthDate
-	 */
-	public Date getBirthDate() {
-		return birthDate;
-	}
-
-	/**
-	 * @param birthDate the birthDate to set
-	 */
-	public void setBirthDate(Date birthDate) {
-		this.birthDate = birthDate;
-	}
-
 	@Override
 	public String toString() {
 		return "Contact [firstName=" + firstName + ", lastName=" + lastName + ", gender=" + gender + ", number="
-				+ number + ", age=" + age + ", email=" + email + ", birthDate=" + birthDate + "]";
+				+ number + ", age=" + age + ", email=" + email + "]";
 	}
 	
 	

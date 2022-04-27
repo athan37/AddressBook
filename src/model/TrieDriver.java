@@ -4,11 +4,11 @@ import java.util.Date;
 
 public class TrieDriver {
 	public static void main(String[] args) {
-		Contact contact1 = new Contact("Kathy", "Smith", Gender.F, "0123456789", 18, "saf@asdc.com", new Date());
-		Contact contact2 = new Contact("Strong", "Smile", Gender.M, "0123456789", 18, "saf@asdc.com", new Date());
-		Contact contact3 = new Contact("Strenth", "Smile", Gender.M, "0123456789", 18, "saf@asdc.com", new Date());
-		Contact contact4 = new Contact("Manny", "Smile", Gender.M, "0123456789", 18, "saf@asdc.com", new Date());
-		Contact contact5 = new Contact("Menny", "Rigge", Gender.F, "0123456789", 18, "saf@asdc.com", new Date());
+		Contact contact1 = new Contact("Kathy", "Smith", Gender.F, "0123456789", 18, "saf@asdc.com");
+		Contact contact2 = new Contact("Strong", "Smile", Gender.M, "0123456789", 18, "saf@asdc.com");
+		Contact contact3 = new Contact("Strenth", "Smile", Gender.M, "0123456789", 18, "saf@asdc.com");
+		Contact contact4 = new Contact("Manny", "Smile", Gender.M, "0123456789", 18, "saf@asdc.com");
+		Contact contact5 = new Contact("Menny", "Rigge", Gender.F, "0123456789", 18, "saf@asdc.com");
 		Trie<Contact> tree = new Trie<>(e -> e.getFirstName(), e -> e.getNumber());
 		tree.insert(contact1);
 		tree.insert(contact2);

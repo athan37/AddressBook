@@ -2,6 +2,8 @@ package model;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -31,6 +33,7 @@ public class Model implements IModel {
 		trees.stream().forEach(tree -> tree.update(contact, newContact));
 //		tableModel.setData(this.getAllContacts()); Not yet
 	}
+	
 	
 	public void deleteOneContact(Contact contact) {
 		trees.stream().forEach(tree -> tree.delete(contact));
@@ -63,5 +66,32 @@ public class Model implements IModel {
 	public TableModel getTableModel() {
 		return tableModel;
 	}
+
+//	@Override
+//	public Contact generateContactFromData(
+//			String firstName, 
+//			String lastName, 
+//			Gender gender, 
+//			String number,
+//			int age, 
+//			String email,
+//			Date date
+//		) {
+//			
+//		return new Contact(firstName, lastName, Gender.M, number, age, email, date);
+//	}
+	
+	@Override
+	public Contact convertDataToContact(Object[] contactData) {
+		return new Contact(
+					(String) contactData[0],
+					(String) contactData[1],
+					(Gender) contactData[2],
+					(String) contactData[3],
+					(Integer) contactData[4],
+					(String) contactData[5] 
+		);
+	}
+
 
 }
