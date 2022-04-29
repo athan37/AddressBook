@@ -25,13 +25,12 @@ public class Model implements IModel {
 		tableModel = new TableModel(getAllContacts());
 	}
 	
-	public void addContact(Contact contact) {
+	public void addOneContact(Contact contact) {
 		trees.stream().forEach(tree -> tree.insert(contact));
 	}
 	
 	public void updateOneContact(Contact contact, Contact newContact) {
 		trees.stream().forEach(tree -> tree.update(contact, newContact));
-//		tableModel.setData(this.getAllContacts()); Not yet
 	}
 	
 	

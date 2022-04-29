@@ -18,13 +18,18 @@ public interface IModel {
 	public List<Contact> search(String prefix);
 	
 	/**
+	 * This method adds one contact to the address book
+	 * @param contact the contact to be added
+	 */
+	public void addOneContact(Contact contact);
+	
+	/**
 	 * This method replaces the information in the original contact
 	 * using the information form the newContact
 	 * @param contact
 	 * @param newContact
 	 */
 	public void updateOneContact(Contact originalContact, Contact newContact);
-	
 	/**
 	 * Delete the contact by providing exact information
 	 * @param contact

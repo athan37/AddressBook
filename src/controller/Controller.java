@@ -1,6 +1,7 @@
 package controller;
 
 import java.awt.CardLayout;
+
 import java.awt.event.ActionEvent;
 
 import java.awt.event.ActionListener;
@@ -18,7 +19,9 @@ import model.Gender;
 import model.IModel;
 import model.Model;
 import model.TableModel;
-import view.EditPanel;
+import view.AddContactPanel;
+import view.AppView;
+import view.EditContactPanel;
 import view.Features;
 import view.IView;
 import view.MainView;
@@ -35,6 +38,11 @@ public class Controller implements ActionListener, IController{
 	@Override
 	public void search(String prefix) {
 		view.getTable().setModel(new TableModel(model.search(prefix)));
+	}
+	
+	@Override
+	public TableModel getContactTableData() {
+		return ((Model) model).getTableModel();
 	}
 	
 //	public void setView(IView v) {
@@ -59,36 +67,92 @@ public class Controller implements ActionListener, IController{
 		CardLayout cl = ((CardLayout) cards.getLayout());
 		cl.show(cards, panelName);
 	}
+	
+	/**
+	 * This method is a helper to turn off the search 
+	 * and the add button during the VIEW of the data of 
+	 * any contact
+	 */
+	private void disableControlMainView() {
+		((MainView) view).getTextField().setEnabled(false);
+		((MainView) view).getAddBtn().setEnabled(false);
+	}
+	
+	private void enableControlMainView() {
+		((MainView) view).getTextField().setEnabled(true);
+		((MainView) view).getTextField().setText("");
+		((MainView) view).getAddBtn().setEnabled(true);
+	}
 
 	@Override
-	public void viewContact(Object[] contactData) {
-		System.out.println(contactData);
-		((MainView) view).getTextField().setEnabled(false);
-		System.out.println("Let's see why it's have nothing" + new ArrayList<>(Arrays.asList(contactData)));
+	public void viewSelectedContact(Object[] contactData) {
+		disableControlMainView();
 		((MainView) view).setUpdatePanel(
-				new EditPanel(
+				new EditContactPanel(
 						this, 
 						(String) contactData[0],
 						(String) contactData[1],
 						(Gender) contactData[2],
 						(String) contactData[3],
-						(Integer) contactData[4],
+						(Integer)contactData[4],
 						(String) contactData[5]
 						));
 		chooseDataPanel("update");
 	}
+	
+	@Override
+	public void viewNewContact() {
+		disableControlMainView();
+		((MainView) view).setUpdatePanel(new AddContactPanel(this));
+		chooseDataPanel("update");
+	}
+	
+	@Override
+	public void addContact(Object[] newContactData) {
+		//Check again the method equals
+		if (newContactData.equals(new Object[]{"","", Gender.M, "", 0, ""})) return;
+		model.addOneContact(model.convertDataToContact(newContactData));
+		enableControlMainView();
+		view.getTable().setModel(new TableModel(model.getAllContacts()));
+		chooseDataPanel("table");
+	}
 
 	@Override
 	public void updateContact(Object[] oldContactData, Object[] newContactData) {
-		model.updateOneContact(model.convertDataToContact(oldContactData), model.convertDataToContact(newContactData));
-		((MainView) view).getTextField().setEnabled(true);
-		((MainView) view).getTextField().setText("");
-//		((MainView) view).setUpdatePanel(
-//		);
-		System.out.println("YEASFKD" + model.getAllContacts());
-		view.getTable().setModel(new TableModel(model.getAllContacts()));
+		if (!oldContactData.equals(newContactData)) {
+			model.updateOneContact(model.convertDataToContact(oldContactData), model.convertDataToContact(newContactData));
+			enableControlMainView();
+			view.getTable().setModel(new TableModel(model.getAllContacts()));
+		}
 		chooseDataPanel("table");
 		
 	}
+
+	@Override
+	public void deleteContact(Object[] contact) {
+		model.deleteOneContact(model.convertDataToContact(contact));
+		enableControlMainView();
+		view.getTable().setModel(new TableModel(model.getAllContacts()));
+		chooseDataPanel("table");
+	}
+	
+	private void chooseAppView(String panelName) {
+		JPanel cards = ((AppView) view).getDataPanel();
+		CardLayout cl = ((CardLayout) cards.getLayout());
+		cl.show(cards, panelName);
+	}
+
+	@Override
+	public void register(String username, String password, String confirmPassWord) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void login(String username, String password) {
+		// TODO Auto-generated method stub
+		
+	}
+
 
 }

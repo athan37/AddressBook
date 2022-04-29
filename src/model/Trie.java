@@ -84,6 +84,8 @@ public class Trie<T> implements Tree<T>{
 	@Override
 	public void insert(T data) {
 		String key = selectKeyFunction.apply(data);
+		
+		if (key.length() == 0) return;
 		CompositeNode<T> curr = root;
 		for (Character c : key.toCharArray()) {
 			if (!curr.getChildren().containsKey(c)) {
@@ -152,7 +154,6 @@ public class Trie<T> implements Tree<T>{
 	public List<T> search(String prefix) {
 		ArrayList<T> result = new ArrayList<>();
 		//Reach till the end of this key
-		System.out.println("Yea " + prefix);
 		CompositeNode<T> curr = root;
 		for (Character c: prefix.toCharArray()) {
 			if (curr.getChildren().containsKey(c)) {
