@@ -1,11 +1,14 @@
 package view;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import java.awt.CardLayout;
 import java.awt.Dimension;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -41,14 +44,15 @@ public class MainView extends JFrame implements IView {
 	private JPanel tablePanel;
 	private JPanel updatePanel;
 	
-	
 	private void initComponents() {
 		setSize(new Dimension(800, 550));
 		
 		addBtn    = new JButton("Add");
 		table     = new JTable();
 		textField = new JTextField();
-		controller= new Controller(model, this);
+		
+		this.model = new Model();
+		controller = new Controller(model, this);
 		
 		dataPanel   = new JPanel(new CardLayout());
 		tablePanel  = new JPanel();
@@ -116,10 +120,9 @@ public class MainView extends JFrame implements IView {
 					.addComponent(textField, GroupLayout.PREFERRED_SIZE, 200, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(addBtn, GroupLayout.PREFERRED_SIZE, 85, GroupLayout.PREFERRED_SIZE)
-					.addGap(40)
-					.addContainerGap(218, Short.MAX_VALUE))
-				.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
-					.addContainerGap(30, Short.MAX_VALUE)
+					.addContainerGap(446, Short.MAX_VALUE))
+				.addGroup(groupLayout.createSequentialGroup()
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 					.addComponent(dataPanel, GroupLayout.PREFERRED_SIZE, 800, GroupLayout.PREFERRED_SIZE)
 					.addGap(36))
 		);
@@ -127,23 +130,31 @@ public class MainView extends JFrame implements IView {
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
 					.addGap(43)
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-							.addComponent(addBtn)
-							.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							))
+					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+						.addComponent(addBtn)
+						.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addGap(54)
 					.addComponent(dataPanel, GroupLayout.PREFERRED_SIZE, 300, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(61, Short.MAX_VALUE))
+					.addContainerGap(95, Short.MAX_VALUE))
 		);
 		getContentPane().setLayout(groupLayout);
 		
+		setClosingEvent();
 		addFeatures(null);
 		
 	}
 	
-	public MainView(IModel model) {
-		this.model = model;
+	private void setClosingEvent() {
+		this.addWindowListener(new WindowAdapter() {
+			@Override
+		    public void windowClosing(WindowEvent e) {
+		    	controller.closeApp();
+		    	System.exit(0);
+		    }
+		});
+	}
+	
+	public MainView() {
 		initComponents();
 		
 		setVisible(true);
@@ -241,19 +252,4 @@ public class MainView extends JFrame implements IView {
 	public void setAddBtn(JButton addBtn) {
 		this.addBtn = addBtn;
 	}
-
-	public static void main(String[] args) {
-		List<Contact> contacts = new ArrayList<>(Arrays.asList(
-			new Contact("Kathy", "Smith", Gender.F, "0123456789", 18, "saf@asdc.com"),
-			new Contact("Strong", "Smile", Gender.M, "0123456789", 18, "saf@asdc.com"),
-			new Contact("Strenth", "Smile", Gender.M, "0123456789", 18, "saf@asdc.com"),
-			new Contact("Manny", "Smile", Gender.M, "0123456789", 18, "saf@asdc.com"),
-			new Contact("Menny", "Rigge", Gender.F, "0123456789", 18, "saf@asdc.com")
-		));
-		
-		IModel model = new Model(contacts);
-		IView view   = new MainView(model);
-		IController controller = new Controller(model, view);
-	}
-
 }

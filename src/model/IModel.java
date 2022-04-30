@@ -5,12 +5,6 @@ import java.util.function.Predicate;
 
 public interface IModel {
 	/**
-	 * Count the total number of contacts
-	 * @return total number of contacts
-	 */
-	public int getTotalContacts();
-	
-	/**
 	 * This should return a list of matching contacts
 	 * @param predicate criteria for finding the right contact
 	 * @return
@@ -47,6 +41,11 @@ public interface IModel {
 	 * @return contact
 	 */
 	public Contact convertDataToContact(Object[] contactData);
+	
+	/**
+	 * Push all information from the address book to the database
+	 */
+	public void saveAddressBook();
 	
 	public TableModel getTableModel();
 

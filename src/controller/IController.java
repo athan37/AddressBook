@@ -36,10 +36,12 @@ public interface IController {
 	 */
 	public void deleteContact(Object[] contact);
 	
-	public void register(String username, String password, String confirmPassWord);
-	
-	public void login(String username, String password);
+	/**
+	 * Save all info to the database and close the app
+	 */
+	public void closeApp();
 	
 	public TableModel getContactTableData();
+
 
 }

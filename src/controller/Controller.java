@@ -26,7 +26,7 @@ import view.Features;
 import view.IView;
 import view.MainView;
 
-public class Controller implements ActionListener, IController{
+public class Controller implements ActionListener, IController {
 	private IModel model;
 	private IView view;
 	
@@ -135,24 +135,29 @@ public class Controller implements ActionListener, IController{
 		view.getTable().setModel(new TableModel(model.getAllContacts()));
 		chooseDataPanel("table");
 	}
+
+	@Override
+	public void closeApp() {
+		model.saveAddressBook();
+	}
 	
-	private void chooseAppView(String panelName) {
-		JPanel cards = ((AppView) view).getDataPanel();
-		CardLayout cl = ((CardLayout) cards.getLayout());
-		cl.show(cards, panelName);
-	}
-
-	@Override
-	public void register(String username, String password, String confirmPassWord) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void login(String username, String password) {
-		// TODO Auto-generated method stub
-		
-	}
+//	private void chooseAppView(String panelName) {
+//		JPanel cards = ((AppView) view).getDataPanel();
+//		CardLayout cl = ((CardLayout) cards.getLayout());
+//		cl.show(cards, panelName);
+//	}
+//
+//	@Override
+//	public void register(String username, String password, String confirmPassWord) {
+//		// TODO Auto-generated method stub
+//		
+//	}
+//
+//	@Override
+//	public void login(String username, String password) {
+//		// TODO Auto-generated method stub
+//		
+//	}
 
 
 }

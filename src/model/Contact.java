@@ -15,7 +15,6 @@ public class Contact {
 	private String number;
 	private int age;
 	private String email;
-	private Calendar birthDate;
 	
 	/**
 	 * Constructor for user

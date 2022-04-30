@@ -2,8 +2,6 @@ package model;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -14,8 +12,16 @@ import java.util.List;
 public class Model implements IModel {
 	private TableModel tableModel;
 	private List<Trie<Contact>> trees;
+	private MySQLConnector connector;
 	
-	public Model(List<Contact> contacts) {
+	public Model() {
+		List<Contact> contacts = new ArrayList<>();
+		try {
+			connector = new MySQLConnector();
+			contacts = connector.loadContacts();
+		} catch (Exception e) {
+			System.out.println(e);
+		}
 		trees = new ArrayList<Trie<Contact>>(Arrays.asList(
 					new Trie<Contact>(contacts, e -> e.getFirstName(), e -> e.getNumber()),
 					new Trie<Contact>(contacts, e -> e.getLastName(), e -> e.getNumber()),
@@ -48,6 +54,7 @@ public class Model implements IModel {
 		);
 	}
 	
+	
 	@Override
 	public List<Contact> getAllContacts() {
 		return trees.get(0).toList();
@@ -55,8 +62,7 @@ public class Model implements IModel {
 
 	@Override
 	public int getTotalContacts() {
-		// TODO Auto-generated method stub
-		return 0;
+		return getAllContacts().size();
 	}
 
 	/**
@@ -66,20 +72,6 @@ public class Model implements IModel {
 		return tableModel;
 	}
 
-//	@Override
-//	public Contact generateContactFromData(
-//			String firstName, 
-//			String lastName, 
-//			Gender gender, 
-//			String number,
-//			int age, 
-//			String email,
-//			Date date
-//		) {
-//			
-//		return new Contact(firstName, lastName, Gender.M, number, age, email, date);
-//	}
-	
 	@Override
 	public Contact convertDataToContact(Object[] contactData) {
 		return new Contact(
@@ -90,6 +82,11 @@ public class Model implements IModel {
 					(Integer) contactData[4],
 					(String) contactData[5] 
 		);
+	}
+
+	@Override
+	public void saveAddressBook() {
+		connector.writeContacts(getAllContacts());
 	}
 
 
