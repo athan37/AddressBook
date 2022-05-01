@@ -1,6 +1,9 @@
-package model;
+package model.tree;
 
 import java.util.Date;
+
+import model.Contact;
+import model.Gender;
 
 public class TrieDriver {
 	public static void main(String[] args) {

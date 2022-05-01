@@ -1,4 +1,4 @@
-package model;
+package model.tree;
 
 import java.awt.Composite;
 import java.util.ArrayList;

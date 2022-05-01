@@ -1,4 +1,4 @@
-package model;
+package model.tree;
 
 import java.util.List;
 import java.util.function.Predicate;

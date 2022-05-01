@@ -3,7 +3,14 @@ package controller;
 import model.TableModel;
 
 public interface IController {
-	public void search(String prefix);
+	/**
+	 * Search the data base on prefix then sort it by 
+	 * the given criteria 
+	 * 
+	 * @param prefix string to search
+	 * @param sortCriteria field name to sort
+	 */
+	public void searchAndSort(String prefix, String sortCriteria);
 
 	/**
 	 * View the current data of the selected contact

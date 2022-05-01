@@ -43,6 +43,14 @@ public interface IModel {
 	public Contact convertDataToContact(Object[] contactData);
 	
 	/**
+	 * Get the current list of contacts base on the search state
+	 * @param searchState the user input
+	 * @param sortCriteria the criteria for sorting
+	 * @return
+	 */
+	public List<Contact> getCurrentContacts(String searchState, String sortCriteria);
+	
+	/**
 	 * Push all information from the address book to the database
 	 */
 	public void saveAddressBook();

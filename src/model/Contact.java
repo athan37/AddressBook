@@ -5,10 +5,10 @@ import java.util.Date;
 
 /**
  * Class containing information for a contact
- * @author DucAnh2
+ * @author Duc Anh
  *
  */
-public class Contact {
+public class Contact implements Comparable<Contact>{
 	private String firstName;
 	private String lastName;
 	private Gender gender;
@@ -125,6 +125,10 @@ public class Contact {
 		return "Contact [firstName=" + firstName + ", lastName=" + lastName + ", gender=" + gender + ", number="
 				+ number + ", age=" + age + ", email=" + email + "]";
 	}
-	
+
+	@Override
+	public int compareTo(Contact contact) {
+		return this.getNumber().compareTo(contact.getNumber());
+	}
 	
 }

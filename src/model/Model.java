@@ -1,8 +1,12 @@
 package model;
 
 import java.util.ArrayList;
+
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import model.tree.Trie;
 
 /**
  * Multiple tree to index all fields
@@ -39,7 +43,6 @@ public class Model implements IModel {
 		trees.stream().forEach(tree -> tree.update(contact, newContact));
 	}
 	
-	
 	public void deleteOneContact(Contact contact) {
 		trees.stream().forEach(tree -> tree.delete(contact));
 	}
@@ -50,19 +53,14 @@ public class Model implements IModel {
 		}
 		return trees.stream()
 				.map(tree -> tree.search(string))
-				.reduce(new ArrayList<>(), (result, subresult) -> { result.addAll(subresult); return result;}
-		);
+				.reduce(new ArrayList<>(), (result, subresult) -> { result.addAll(subresult); return result;})
+				.stream().distinct().collect(Collectors.toList()); // Select unique result only
 	}
 	
 	
 	@Override
 	public List<Contact> getAllContacts() {
 		return trees.get(0).toList();
-	}
-
-	@Override
-	public int getTotalContacts() {
-		return getAllContacts().size();
 	}
 
 	/**
@@ -79,7 +77,7 @@ public class Model implements IModel {
 					(String) contactData[1],
 					(Gender) contactData[2],
 					(String) contactData[3],
-					(Integer) contactData[4],
+					(Integer)contactData[4],
 					(String) contactData[5] 
 		);
 	}
@@ -89,5 +87,10 @@ public class Model implements IModel {
 		connector.writeContacts(getAllContacts());
 	}
 
-
+	@Override
+	public List<Contact> getCurrentContacts(String searchState, String sortCriteria) {
+		return search(searchState).stream()
+				.sorted(ContactComparatorFactory.getComparatorBy(sortCriteria))
+				.collect(Collectors.toList());
+	}
 }

@@ -7,6 +7,8 @@ import javax.swing.JScrollPane;
 
 import java.awt.CardLayout;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
@@ -16,6 +18,7 @@ import java.util.List;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.event.DocumentEvent;
@@ -36,6 +39,8 @@ public class MainView extends JFrame implements IView {
 	private JTextField textField;
 	private JTable table;
 	private JButton addBtn;
+	private JLabel sortLabel;
+	private JComboBox<String> sortSelect;
 	private IController controller;
 	private IModel model;
 	
@@ -44,10 +49,15 @@ public class MainView extends JFrame implements IView {
 	private JPanel tablePanel;
 	private JPanel updatePanel;
 	
+	private String searchState;
+	private String sortState;
+	
 	private void initComponents() {
 		setSize(new Dimension(800, 550));
 		
 		addBtn    = new JButton("Add");
+		sortLabel = new JLabel("Sort by: ");
+		sortSelect= new JComboBox<String>(new String[] {"First Name", "Last Name", "Age", "Email", "Gender", "Number"}) ;
 		table     = new JTable();
 		textField = new JTextField();
 		
@@ -57,6 +67,14 @@ public class MainView extends JFrame implements IView {
 		dataPanel   = new JPanel(new CardLayout());
 		tablePanel  = new JPanel();
 		updatePanel = new AddContactPanel(controller);
+		
+		sortSelect.setSize(500, 50);
+		sortSelect.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				controller.searchAndSort(textField.getText(), sortSelect.getSelectedItem().toString());
+			}
+		});
 		
 		//Setup table + scroll
 		table     = new JTable(controller.getContactTableData());
@@ -95,12 +113,12 @@ public class MainView extends JFrame implements IView {
 
 					@Override
 					public void insertUpdate(DocumentEvent e) {
-						controller.search(textField.getText());
+						controller.searchAndSort(textField.getText(), sortSelect.getSelectedItem().toString());
 					}
 
 					@Override
 					public void removeUpdate(DocumentEvent e) {
-						controller.search(textField.getText());
+						controller.searchAndSort(textField.getText(), sortSelect.getSelectedItem().toString());
 					}
 
 					@Override
@@ -120,11 +138,16 @@ public class MainView extends JFrame implements IView {
 					.addComponent(textField, GroupLayout.PREFERRED_SIZE, 200, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(addBtn, GroupLayout.PREFERRED_SIZE, 85, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(50, Short.MAX_VALUE)
+					.addGap(60)
+					.addComponent(sortLabel, GroupLayout.PREFERRED_SIZE, 85, GroupLayout.PREFERRED_SIZE)
+					.addComponent(sortSelect, GroupLayout.PREFERRED_SIZE, 120, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap(446, Short.MAX_VALUE))
 				.addGroup(groupLayout.createSequentialGroup()
 					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 					.addComponent(dataPanel, GroupLayout.PREFERRED_SIZE, 800, GroupLayout.PREFERRED_SIZE)
-					.addGap(36))
+					.addGap(36)
+				)
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -132,7 +155,10 @@ public class MainView extends JFrame implements IView {
 					.addGap(43)
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(addBtn)
-						.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(sortLabel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(sortSelect, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					)
 					.addGap(54)
 					.addComponent(dataPanel, GroupLayout.PREFERRED_SIZE, 300, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap(95, Short.MAX_VALUE))
@@ -251,5 +277,21 @@ public class MainView extends JFrame implements IView {
 	 */
 	public void setAddBtn(JButton addBtn) {
 		this.addBtn = addBtn;
+	}
+
+	public String getSearchState() {
+		return searchState;
+	}
+
+	public void setSearchState(String searchState) {
+		this.searchState = searchState;
+	}
+
+	public String getSortState() {
+		return sortState;
+	}
+
+	public void setSortState(String sortState) {
+		this.sortState = sortState;
 	}
 }
