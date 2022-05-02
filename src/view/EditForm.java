@@ -5,7 +5,14 @@ import javax.swing.JButton;
 import controller.IController;
 import model.Gender;
 
-public class EditContactPanel extends AbstractViewContactPanel {
+/**
+ * Class represents the form filled with the data from 
+ * the selected row from the table
+ * 
+ * @author Duc Anh
+ *
+ */
+public class EditForm extends AbstractForm {
 	private String firstName;
 	private String lastName;
 	private Gender gender;
@@ -13,7 +20,7 @@ public class EditContactPanel extends AbstractViewContactPanel {
 	private int age;
 	private String email;
 	
-	public EditContactPanel(IController controller, String firstName, String lastName, Gender gender, String number,
+	public EditForm(IController controller, String firstName, String lastName, Gender gender, String number,
 			int age, String email) {
 		super(controller, firstName, lastName, gender, number, age, email);
 		

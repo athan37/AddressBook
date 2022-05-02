@@ -1,5 +1,10 @@
 package model;
 
+/**
+ * Enum represent 2 genders
+ * @author Duc Anh
+ *
+ */
 public enum Gender {
 	F {
 		@Override

@@ -2,14 +2,14 @@ package controller;
 
 import java.awt.CardLayout;
 
+
 import javax.swing.JPanel;
 
 import model.Gender;
 import model.IModel;
 import model.Model;
 import model.TableModel;
-import view.AddContactPanel;
-import view.EditContactPanel;
+import view.EditForm;
 import view.IView;
 import view.MainView;
 
@@ -17,6 +17,11 @@ public class Controller implements IController {
 	private Model model;
 	private MainView view;
 	
+	/**
+	 * Constructor for the controller
+	 * @param model
+	 * @param view
+	 */
 	public Controller(IModel model, IView view) {
 		this.model = (Model) model;
 		this.view  = (MainView) view;
@@ -37,7 +42,7 @@ public class Controller implements IController {
 	public void viewSelectedContact(Object[] contactData) {
 		disableControlMainView();
 		view.setUpdatePanel(
-				new EditContactPanel(
+				new EditForm(
 							this, 
 							(String) contactData[0],
 							(String) contactData[1],
@@ -52,7 +57,7 @@ public class Controller implements IController {
 	@Override
 	public void viewNewContact() {
 		disableControlMainView();
-		view.setUpdatePanel(new AddContactPanel(this));
+		view.setUpdatePanel(new AddForm(this));
 		chooseDataPanel("update");
 	}
 	
@@ -110,6 +115,7 @@ public class Controller implements IController {
 	private void disableControlMainView() {
 		view.getTextField().setEnabled(false);
 		view.getAddBtn().setEnabled(false);
+		view.getSortSelect().setEnabled(false);
 	}
 	
 	/**
@@ -121,6 +127,7 @@ public class Controller implements IController {
 		view.getTextField().setEnabled(true);
 		view.getTextField().setText("");
 		view.getAddBtn().setEnabled(true);
+		view.getSortSelect().setEnabled(true);
 	}
 
 

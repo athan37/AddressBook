@@ -1,7 +1,6 @@
 package model;
-import java.util.Date;
+
 import java.util.List;
-import java.util.function.Predicate;
 
 public interface IModel {
 	/**
@@ -55,6 +54,10 @@ public interface IModel {
 	 */
 	public void saveAddressBook();
 	
+	/**
+	 * Return the table model inside the Model
+	 * @return TableModel the table model inside Model
+	 */
 	public TableModel getTableModel();
 
 

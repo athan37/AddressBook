@@ -2,11 +2,13 @@ package model;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.table.AbstractTableModel;
 
+/**
+ * Table model for the JTable
+ * @author Duc Anh
+ *
+ */
 public class TableModel extends AbstractTableModel {
 	private String[] columnNames;
 	private Object[][] data;

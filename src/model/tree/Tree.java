@@ -1,8 +1,14 @@
 package model.tree;
 
 import java.util.List;
-import java.util.function.Predicate;
 
+/**
+ * ADT for prefix tree
+ * Subclasses must contain insert, delete, search, toList operations
+ * @author Duc Anh
+ *
+ * @param <T>
+ */
 public interface Tree<T> {
 	/**
 	 * Insert the data to the tree
@@ -28,14 +34,7 @@ public interface Tree<T> {
 	 * Print all of the data of this tree
 	 * This can be used to push to the database for 
 	 * backup
-	 * @return
+	 * @return List of all data from this tree
 	 */
 	public List<T> toList();
-	/**
-	 * 
-	 * @param key
-	 * @param predicate
-	 * @return
-	 */
-	public T lookup(String key, Predicate<T> predicate);
 }

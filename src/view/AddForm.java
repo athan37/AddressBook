@@ -5,9 +5,15 @@ import javax.swing.JButton;
 import controller.IController;
 import model.Gender;
 
-public class AddContactPanel extends AbstractViewContactPanel {
+/**
+ * Class represent an empty form when we try to add a new contact
+ * 
+ * @author Duc Anh
+ *
+ */
+public class AddForm extends AbstractForm {
 
-	public AddContactPanel(IController controller) {
+	public AddForm(IController controller) {
 		super(controller, "", "", Gender.M, "", 0, "");
 	}
 

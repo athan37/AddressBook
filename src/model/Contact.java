@@ -1,8 +1,5 @@
 package model;
 
-import java.util.Calendar;
-import java.util.Date;
-
 /**
  * Class containing information for a contact
  * @author Duc Anh

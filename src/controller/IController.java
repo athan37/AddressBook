@@ -2,6 +2,11 @@ package controller;
 
 import model.TableModel;
 
+/**
+ * Controller class 
+ * @author Duc Anh
+ *
+ */
 public interface IController {
 	/**
 	 * Search the data base on prefix then sort it by 
@@ -48,6 +53,11 @@ public interface IController {
 	 */
 	public void closeApp();
 	
+	/**
+	 * Get the Table model from the model because
+	 * the table in view requires this
+	 * @return TableModel table model object
+	 */
 	public TableModel getContactTableData();
 
 

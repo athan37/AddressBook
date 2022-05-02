@@ -9,7 +9,8 @@ import java.util.stream.Collectors;
 import model.tree.Trie;
 
 /**
- * Multiple tree to index all fields
+ * Model base on multiple prefix tree to index all fields
+ * Search will aggregate the result from all the trees
  * @author DucAnh2
  *
  */
@@ -26,6 +27,12 @@ public class Model implements IModel {
 		} catch (Exception e) {
 			System.out.println(e);
 		}
+		/*
+		 * The number is unique, so we can make identifier function to get the number
+		 * The other field can be the key, but not age and gender. They are not a good 
+		 * field to index because it will make the trie more flat and more linear
+		 * search
+		 */
 		trees = new ArrayList<Trie<Contact>>(Arrays.asList(
 					new Trie<Contact>(contacts, e -> e.getFirstName(), e -> e.getNumber()),
 					new Trie<Contact>(contacts, e -> e.getLastName(), e -> e.getNumber()),
@@ -35,28 +42,37 @@ public class Model implements IModel {
 		tableModel = new TableModel(getAllContacts());
 	}
 	
+	@Override
 	public void addOneContact(Contact contact) {
 		trees.stream().forEach(tree -> tree.insert(contact));
 	}
 	
+	@Override
 	public void updateOneContact(Contact contact, Contact newContact) {
 		trees.stream().forEach(tree -> tree.update(contact, newContact));
 	}
 	
+	@Override
 	public void deleteOneContact(Contact contact) {
 		trees.stream().forEach(tree -> tree.delete(contact));
 	}
 	
+	@Override
 	public List<Contact> search(String string) {
 		if (string.length() == 0) {
 			return getAllContacts();
 		}
+		
+		/*
+		 * Aggregate search result from all the trees
+		 * and select distinct result base on the number
+		 * (Contact already implements Comparable<Contact>)
+		 */
 		return trees.stream()
 				.map(tree -> tree.search(string))
 				.reduce(new ArrayList<>(), (result, subresult) -> { result.addAll(subresult); return result;})
 				.stream().distinct().collect(Collectors.toList()); // Select unique result only
 	}
-	
 	
 	@Override
 	public List<Contact> getAllContacts() {

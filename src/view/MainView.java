@@ -35,6 +35,13 @@ import model.Model;
 
 import javax.swing.JTable;
 
+/**
+ * Class represents the main view of the application.
+ * It has a control panel (search field, add, sort buttons) and a
+ * data panel that either holds a table or holds a form.
+ * @author Duc Anh
+ *
+ */
 public class MainView extends JFrame implements IView {
 	private JTextField textField;
 	private JTable table;
@@ -49,10 +56,8 @@ public class MainView extends JFrame implements IView {
 	private JPanel tablePanel;
 	private JPanel updatePanel;
 	
-	private String searchState;
-	private String sortState;
-	
-	private void initComponents() {
+	@Override
+	public void initComponents() {
 		setSize(new Dimension(800, 550));
 		
 		addBtn    = new JButton("Add");
@@ -61,12 +66,12 @@ public class MainView extends JFrame implements IView {
 		table     = new JTable();
 		textField = new JTextField();
 		
-		this.model = new Model();
+		model      = new Model();
 		controller = new Controller(model, this);
 		
 		dataPanel   = new JPanel(new CardLayout());
 		tablePanel  = new JPanel();
-		updatePanel = new AddContactPanel(controller);
+		updatePanel = new AddForm(controller);
 		
 		sortSelect.setSize(500, 50);
 		sortSelect.addActionListener(new ActionListener() {
@@ -166,7 +171,6 @@ public class MainView extends JFrame implements IView {
 		getContentPane().setLayout(groupLayout);
 		
 		setClosingEvent();
-		addFeatures(null);
 		
 	}
 	
@@ -187,10 +191,6 @@ public class MainView extends JFrame implements IView {
 	}
 	
 
-	@Override
-	public void addFeatures(Features features) {
-	}
-	
 	
 	
 	/**
@@ -208,6 +208,21 @@ public class MainView extends JFrame implements IView {
 	}
 	
 	
+	
+
+	/**
+	 * @return the sortSelect
+	 */
+	public JComboBox<String> getSortSelect() {
+		return sortSelect;
+	}
+
+	/**
+	 * @param sortSelect the sortSelect to set
+	 */
+	public void setSortSelect(JComboBox<String> sortSelect) {
+		this.sortSelect = sortSelect;
+	}
 
 	/**
 	 * @return the dataPanel
@@ -278,20 +293,7 @@ public class MainView extends JFrame implements IView {
 	public void setAddBtn(JButton addBtn) {
 		this.addBtn = addBtn;
 	}
+	
+	
 
-	public String getSearchState() {
-		return searchState;
-	}
-
-	public void setSearchState(String searchState) {
-		this.searchState = searchState;
-	}
-
-	public String getSortState() {
-		return sortState;
-	}
-
-	public void setSortState(String sortState) {
-		this.sortState = sortState;
-	}
 }
