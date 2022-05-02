@@ -2,13 +2,13 @@ package controller;
 
 import java.awt.CardLayout;
 
-
 import javax.swing.JPanel;
 
 import model.Gender;
 import model.IModel;
 import model.Model;
 import model.TableModel;
+import view.AddForm;
 import view.EditForm;
 import view.IView;
 import view.MainView;

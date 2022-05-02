@@ -7,14 +7,19 @@ public class MySQLConnector {
 	private static final String USERNAME = "root";
 	private static final String PASSWORD = "abcd1234";
 	
-	public MySQLConnector() throws SQLException, ClassNotFoundException {
-		Class.forName("com.mysql.cj.jdbc.Driver");  
-	}
-	
+	/**
+	 * Get the connection from the driver
+	 * @return
+	 * @throws SQLException
+	 */
 	private Connection getConnection() throws SQLException {
 		return DriverManager.getConnection("jdbc:mysql://localhost:3306/" + DBNAME, USERNAME, PASSWORD);  
 	}
 	
+	/**
+	 * Loads all contacts from the database
+	 * @return a list of contacts
+	 */
 	public List<Contact> loadContacts() {
 		List<Contact> contacts = new ArrayList<>();
 		try {  
@@ -40,6 +45,12 @@ public class MySQLConnector {
 		return contacts;
 	}
 	
+	/**
+	 * Write the whole address book to the database
+	 * It will drop the table and recreate the new
+	 * table with new data.
+	 * @param contacts
+	 */
 	public void writeContacts(List<Contact> contacts) {
 		try {  
 			String deleteTableSQL = "DROP TABLE contacts";
