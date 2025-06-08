@@ -193,38 +193,32 @@ public class Trie<T> implements Tree<T>{
 	 * @param data
 	 * @return
 	 */
-	public Node<T> deleteHelper(CompositeNode<T> root, String prefix, T data) {
-		HashMap<Character, Node<T>> children = root.getChildren();
-		
-		/*
-		 * Either delete the current data from a list or delete the whole node
-		 * by removing symbol.
-		 * 
-		 * If there is no more children, we should return a new CompositeNode
-		 * instead of returning the root, so that we can delete the whole 
-		 * branch.
-		 */
-		if (children.containsKey(SYMBOL) ) {
-			if (prefix.length() == 0) {
-				TailNode<T> dataNode = (TailNode<T>) children.get(SYMBOL);
-				if (dataNode.getListOfData().size() > 1)  {
-					dataNode.getListOfData().removeIf(e -> identifierFunction.apply(e).equals(identifierFunction.apply(data)));
-				} else {
-					children.remove(SYMBOL);
-				}
-				
-				return children.size() == 0 ? new CompositeNode<T>() : root;
-			} 
-		} else {
-			if (prefix.length() == 0) return root;
-			Character c =  prefix.charAt(0);
-			root.getChildren().put(c, 
-					deleteHelper((CompositeNode<T>) root.getChildren().get(c), 
-					prefix.substring(1), data)); //Call the next recursion with the new prefix. Ex: "word" -> "ord"
-		}
-		
-		return root;
-	}
+        public Node<T> deleteHelper(CompositeNode<T> root, String prefix, T data) {
+                HashMap<Character, Node<T>> children = root.getChildren();
+
+                if (prefix.length() == 0) {
+                        if (children.containsKey(SYMBOL)) {
+                                TailNode<T> dataNode = (TailNode<T>) children.get(SYMBOL);
+                                dataNode.getListOfData().removeIf(
+                                                e -> identifierFunction.apply(e).equals(identifierFunction.apply(data)));
+                                if (dataNode.getListOfData().isEmpty()) {
+                                        children.remove(SYMBOL);
+                                }
+                        }
+                } else {
+                        Character c = prefix.charAt(0);
+                        if (!children.containsKey(c)) {
+                                return root; // prefix not found
+                        }
+                        CompositeNode<T> child = (CompositeNode<T>) children.get(c);
+                        deleteHelper(child, prefix.substring(1), data);
+                        if (child.getChildren().isEmpty()) {
+                                children.remove(c);
+                        }
+                }
+
+                return root;
+        }
 
 
 	@Override
